@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>JSON示例</title>
+    <script type="text/javascript" src="../js/json.js"></script>
+    <script type="text/javascript">
+        var xmlHttp;
+        function createXmlHttpReq()
+        {
+            if(window.ActiveXObject)
+            {
+                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+            }else{
+                xmlhttp=new XMLHttpRequest();
+            }
+        }
+
+        function User(name,age,sex)
+        {
+            this.name=name;
+            this.age=age;
+            this.sex=sex;
+        }
+
+        function showUser()
+        {
+            var user=new User("张三","114","男");
+            alert(user.toJSONString());//toJSONString()不是JS本身的方法
+        }
+
+        function registerUser()
+        {
+            alert("start...");
+            //获取表单中对应的值
+            var name=document.myForm.userName.value;
+            alert(name);
+            var age=document.myForm.age.value;
+            var boy=document.myForm.sex[0].checked;
+            alert(boy);
+            var sex;
+            if(boy)
+            {
+                sex=document.sex[0].value;
+            }else{
+                sex=document.sex[1].value;
+            }
+
+            var user=new User(name,age,sex);
+            alert(user.toJSONString());
+            createXmlHttpReq();
+            xmlHttp.open("post","/JsonServlet?user="+user.toJSONString(),true);
+            xmlHttp.onreadystatechange=proResp;
+            xmlHttp.send(null);
+        }
+
+        function proResp()
+        {
+            if(xmlHttp.readyState==4 && xmlHttp.status==200)
+            {
+                var p=xmlHttp.responseText;
+                alert(p);
+                var jsonPerson=eval("("+p+")");
+                alert(jsonPerson.edu);
+                alert(jsonPerson.zy);
+                alert(jsonPerson.family);
+            }
+        }
+
+
+    </script>
+
+</head>
+<body>
+<input type="button" value="显示用户" onclick="showUser()"/><br/>
+<form nama="myForm" action="" method="post">
+    用户名：<input type="text" name="userName" /><br/>
+    年龄：<input type="text" name="age"/><br/>
+    性别：<input type="radio" name="sex" value="boy" checked/>男
+    <input type="radio" name="sex" value="girl" />女<br/>
+    <input type="button" value="注册用户" onclick="registerUser()"/>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>主界面</title>
+    <link rel="stylesheet" type="text/css" href="../css/home.css"/>
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script  type="text/javascript">
+        $(document).ready(
+                function () {
+                    //得到所有行的对象
+                    $("tr:even").addClass("bg");//偶数行
+                    //序号选择
+                    $("tr:nth-child(3)").addClass("bgr");
+                    //id为tr2
+                    $("tr[id=tr2]").addClass("bgg");
+//                    //id以tr开始
+//                    $("tr[id^=tr]").addClass("bgg");
+//                    //id以2结束
+//                    $("tr[id$=2]").addClass("bgg");
+//                    //id包含tr
+//                    $("tr[id*=tr]").addClass("bgg");
+
+                    $("tr").mouseover(
+                            function () {
+                                $(this).addClass("bg");
+                            }
+                    ).mouseout(
+                            function () {
+                                $(this).removeClass("bg");
+                            }
+                    );
+
+                    $("#btn").click(
+                            function(){
+//                                var name=$("#input1").val();
+                                var param=$("input").serialize();//序列化input标签的值
+                                $.Ajax(
+                                        {
+                                            type:"post",
+                                            url:"/TestQueryServlet",
+                                            data:param,
+                                            dataType:"json",
+                                            success:proResp
+                                        }
+                                );
+                            }
+                    );
+                }
+        );
+
+        function proResp(user){
+            //user 用来接收响应数据
+            var str="姓名："+user.name+"<br/>";
+            str+="性别："+user.sex+"<br/>";
+            str+="年龄："+user.age;
+//            $("#div").innerHTML(str);
+            $("#div").html(str);
+        }
+
+
+
+
+
+
+    </script>
+</head>
+<body>
+<div>
+    <table border="1" width="500">
+        <tr id="tr1">
+            <td>11111</td>
+            <td>22222</td>
+        </tr>
+        <tr id="tr2">
+            <td>33333</td>
+            <td>44444</td>
+        </tr>
+        <tr id="tr3">
+            <td>55555</td>
+            <td>66666</td>
+        </tr>
+        <tr id="xx2">
+            <td>77777</td>
+            <td>88888</td>
+        </tr>
+        <tr id="lasttr">
+            <td colspan="2">99999</td>
+        </tr>
+    </table>
+</div></br>
+<div id="div" style="width: 300px;height:200px;background-color: yellow;"></div>
+<form name="myform" action="" method="post">
+    用户名：<input type="text" name="userName" id="inpput1" /><br/>
+    年龄：<input type="text" name="age" id="input2"/><br/>
+    性别：<input type="radio" name="sex" value="男" id="input3" checked/>男
+    <input type="radio" name="sex" value="女" id="input4"/>女<br/>
+    <input type="button" value="提交" id="btn"/>
+</form>
+</body>
+</html>

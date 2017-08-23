@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link rel="stylesheet" type="text/css" href="../css/login.css"/>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script language="javascript" type="text/javascript">
+
+        var xmlhttp;
+        var value;
+
+        function createXmlHttpReq()
+        {
+            if(window.ActiveXObject)
+            {
+                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+            }else{
+                xmlhttp=new XMLHttpRequest();
+            }
+        }
+
+        function checkName()
+        {
+            var name=document.getElementById("un").value;
+            if(name.length==0)
+            {
+                alert("用户名不能为空！");
+            }else{
+                doAjax();
+            }
+
+
+        }
+
+        function doAjax()
+        {
+            var name=document.getElementById("un").value;
+            createXmlHttpReq();
+
+            xmlhttp.open("get","/login?name="+name,true);
+            xmlhttp.onreadystatechange=processRespose;
+            xmlhttp.send(null);
+
+            //通常方式
+//            xmlhttp.open("post","/login",true);
+//            xmlhttp.onreadystatechange=processRespose;
+//            xmlhttp.send("name="+name);
+
+        }
+
+        function processRespose()
+        {
+//            alert("readyState="+xmlhttp.readyState);
+//            alert("status="+xmlhttp.status);
+            //当完全正确的响应时处理数据
+            if(xmlhttp.readyState==4 && xmlhttp.status==200)
+            {
+                //获取响应数据
+                value=xmlhttp.responseText;
+                var div=document.getElementById("div");
+                if(value==1)
+                {
+                    div.innerHTML="message:username is existing!";
+                } else
+                {
+                    div.innerHTML="message:username is not existing!";
+                }
+
+            }
+        }
+
+        function goHomePage()
+        {
+            if(value==1)
+            {
+                window.location.href="http://localhost:8080/html/home.html";
+            }
+        }
+
+        function goJSONPage()
+        {
+            window.location.href="http://localhost:8080/html/json.html";
+        }
+
+    </script>
+</head>
+<body class="backgd">
+<div class="loginback loginborder ">
+    <div class="logintop">
+    <div class="loginhead"></div>
+    <div  class="loginwrapperU">
+        <span class="userName">用户名</span><br/>
+        <input type="text" class="textCss" id="un" onblur="checkName()"/>
+    </div>
+    <div class="loginwrapperP">
+        <span class="password">密码</span><br/>
+        <input type="password" class="textCss"/>
+        <input type="checkbox"  checked>
+        <span id="checkfont">记住密码</span>
+        </input>
+    </div>
+        <div id="div" class="msg"></div>
+    </div>
+    <div class="loginbottom">
+        <div>
+            <a href="/html/register.html" id="a">To Register</a>
+            <input type="button" value="登录" class="button fore" onclick="goHomePage()"/>
+            <input type="button" value="JSONTest" class="button fore" onclick="goJSONPage()"/>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

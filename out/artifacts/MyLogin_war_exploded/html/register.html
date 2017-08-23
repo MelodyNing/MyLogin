@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <link rel="stylesheet" type="text/css" href="../css/register.css"/>
+    <style>
+        .code {
+            background-color: black;
+            font-family: Arial, 宋体;
+            font-style: italic;
+            color: white;
+            border: 0;
+            letter-spacing: 3px;
+            font-weight: bolder;
+        }
+
+        .unchanged {
+            border: 0;
+        }
+    </style>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script language="javascript" type="text/javascript">
+        var code; //在全局 定义验证码
+        function createCode() {
+            code = new Array();
+            var codeLength = 4; //验证码的长度
+            var checkCode = document.getElementById("checkCode");
+            checkCode.value = "";
+
+            var selectChar = new Array(2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
+
+            for (var i = 0; i < codeLength; i++) {
+                var charIndex = Math.floor(Math.random() * 32);
+                code += selectChar[charIndex];
+            }
+            if (code.length != codeLength) {
+                createCode();
+            }
+            checkCode.value = code;
+        }
+
+        function validate() {
+            var inputCode = document.getElementById("input1").value.toUpperCase();
+
+            if (inputCode.length <= 0) {
+                alert("请输入验证码！");
+                return false;
+            }
+            else if (inputCode != code) {
+                alert("验证码输入错误！");
+                createCode();
+                return false;
+            }
+            else {
+                //alert("成功！");
+                return true;
+            }
+        }
+
+        window.onload=function(){
+            createCode();
+        }
+        
+        function goBack() {
+            window.history.back(-1);
+        }
+
+
+        function goRegister() {
+
+            try {
+                var username = document.getElementById("user").value;
+                var password1 = document.getElementById("pwd1").value;
+                var password2 = document.getElementById("pwd2").value;
+                if (username.length <= 0 || password1.length <= 0 || password2.length <= 0) {
+                    alert("用户名或密码不能为空！");
+                    return false;
+                }
+
+                if (password1 != password2) {
+                    alert("两次输入密码不一致！");
+                    return false;
+                }
+
+                var res = validate();
+
+                if (res) {
+                    var param = {};
+                    param["username"] = username;
+                    param["password"] = password1;
+                    $.post("/register", param, function (back) {
+                        console.log(back);
+                        alert(back);
+                    });
+
+                    alert("注册成功！3秒后返回登录界面");
+//                    setTimeout(window.location.href="http://localhost:8080/html/login.html",3000);
+                    setTimeout(window.history.back(-1),3000);
+
+                } else {
+                    alert("注册失败！");
+                }
+            }catch(e)
+            {
+                alert(e);
+            }
+        }
+
+    </script>
+</head>
+<body class="backgd">
+<div class="loginback loginborder ">
+    <div class="logintop">
+        <div class="loginhead"></div>
+        <div class="loginwrapperU">
+            <span class="userName">账&nbsp&nbsp号</span>
+            <input type="text" class="textCss" id="user"/>
+        </div>
+        <div class="loginwrapperP">
+            <span class="password">密&nbsp&nbsp码</span>
+            <input type="password" class="textCss" id="pwd1"/>
+        </div>
+        <div class="loginwrapperP">
+            <span class="password">确认密码</span>
+            <input type="password" class="textCss" id="pwd2"/>
+        </div>
+        <div class="loginwrapperP">
+            <span class="password">&nbsp验证码</span>
+            <input type="text" class="textVerify" id="input1"/>
+            <input type="button" id="checkCode"  class="code" style="width:60px" onClick="createCode()"/>
+            <a href="#" onClick="createCode()" style="font-size: 14px">看不清楚</a>
+        </div>
+    </div>
+    <div class="loginbottom">
+        <div>
+            <input type="button" value="返回登录" class="button fore" onclick="goBack()"/>
+            <input type="button" value="注册" class="button fore" onclick="goRegister()"/>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

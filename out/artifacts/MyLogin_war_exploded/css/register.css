@@ -1,0 +1,95 @@
+.backgd{
+    /*background-color: cornflowerblue;*/
+    background:url(../images/1.jpg);
+    background-size: 100%,100%;
+}
+
+.loginback{
+    background-color: white;
+    width: 40%;
+    height: 60%;
+    overflow: auto;
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    opacity: 0.9;
+    /*-moz-border-radius:8px;!*8px是圆角的角度，值越大则圆角效果越明显，如果修改此项，请修改以下两项的值，使之相同*!*/
+    /*-webkit-border-radius:8px;*/
+    border-radius: 20px;
+}
+.loginborder{
+    border: 3px solid #478fab;
+}
+
+div.loginwrapperU{
+    margin-left:50px;
+    margin-top: 5px;
+    line-height: 40px;
+}
+div.loginwrapperP{
+    margin-left:50px;
+    line-height: 40px;
+}
+
+.userName{
+    font-family: 宋体;
+    font-size: 20px;
+    color:#333333;
+}
+.password{
+    font-family: 宋体;
+    font-size: 20px;
+    color:#333333;
+}
+
+.textCss{
+    width: 300px;
+    height: 25px;
+    padding-left: 2%;
+    font-size: 14px;
+    font-family: 新宋体;
+    color: #333333;
+}
+
+.textVerify{
+    width: 130px;
+    height: 25px;
+    padding-left: 2%;
+    font-size: 14px;
+    font-family: 新宋体;
+    color: #333333;
+}
+
+.loginhead{
+    background:url(../images/logo.png) no-repeat; /* combined background attribute */
+    width:auto;
+    height:115px;
+}
+div.loginbottom{
+    background-color: lightgrey;
+    height: 15%;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+}
+div.logintop{
+    height:50%;
+}
+
+input.button{
+    width:80px;
+    height:30px;
+    border:0px;
+    float:right;
+    margin-right:20px;
+    margin-top:10px;
+    background-color: cornflowerblue;
+}
+
+input.button.fore{
+    color: white;
+    font-size: 16px;
+    font-family: 宋体;
+    font-weight: bold;
+    border-radius:8px;
+}
